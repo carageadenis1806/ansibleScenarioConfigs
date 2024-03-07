@@ -1,0 +1,40 @@
+---
+- name: Deploy Node.js Apps
+  hosts: host@192.168.255.128
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Copy app1 Dockerfile and code
+      copy:
+        src: ../app1/
+        dest: /home/node/app1/
+      tags:
+        - copy
+
+    - name: Deploy app1
+      include_role:
+        name: geerlingguy.nodejs
+      vars:
+        nodejs_app_name: app1
+        nodejs_app_port: 8080
+        nodejs_app_source_directory: /home/node/app1
+      tags:
+        - nodejs
+
+    - name: Copy app2 Dockerfile and code
+      copy:
+        src: ../app2/
+        dest: /home/node/app2/
+      tags:
+        - copy
+
+    - name: Deploy app2
+      include_role:
+        name: geerlingguy.nodejs
+      vars:
+        nodejs_app_name: app2
+        nodejs_app_port: 8081
+        nodejs_app_source_directory: /home/node/app2
+      tags:
+        - nodejs
