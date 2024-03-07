@@ -8,7 +8,7 @@
     - name: Copy app1 Dockerfile and code
       copy:
         src: /ansibleScenarioConfigs/app1/
-        dest: /home/node/app1/
+        dest: app1/
       tags:
         - copy
 
@@ -25,7 +25,7 @@
     - name: Copy app2 Dockerfile and code
       copy:
         src: /ansibleScenarioConfigs/app2/
-        dest: /home/node/app2/
+        dest: app2/
       tags:
         - copy
 
