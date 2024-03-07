@@ -24,8 +24,8 @@
 
     - name: Copy app2 Dockerfile and code
       copy:
-        src: /ansibleScenarioConfigs/app2/
-        dest: app2/
+        src: app2/
+        dest: /home/node/app2/
       tags:
         - copy
 
