@@ -7,7 +7,7 @@
   tasks:
     - name: Copy app1 Dockerfile and code
       copy:
-        src: app1/
+        src: app1
         dest: /home/node/app1/
         remote_src: yes
       tags:
@@ -25,7 +25,7 @@
 
     - name: Copy app2 Dockerfile and code
       copy:
-        src: app2/
+        src: app2
         dest: /home/node/app2/
         remote_src: yes
       tags:
