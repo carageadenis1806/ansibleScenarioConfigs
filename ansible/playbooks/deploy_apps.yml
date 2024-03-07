@@ -7,8 +7,8 @@
   tasks:
     - name: Copy app1 Dockerfile and code
       copy:
-        src: /ansibleScenarioConfigs/app1/
-        dest: app1/
+        src: app1/
+        dest: /home/node/app1/
       tags:
         - copy
 
