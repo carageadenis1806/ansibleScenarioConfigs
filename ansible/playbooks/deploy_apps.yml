@@ -9,6 +9,7 @@
       copy:
         src: app1/
         dest: /home/node/app1/
+         remote_src: yes
       tags:
         - copy
 
@@ -26,6 +27,7 @@
       copy:
         src: app2/
         dest: /home/node/app2/
+        remote_src: yes
       tags:
         - copy
 
