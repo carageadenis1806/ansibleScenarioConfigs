@@ -7,7 +7,7 @@
   tasks:
     - name: Copy app1 Dockerfile and code
       copy:
-        src: app1/
+        src: /home/controller/Desktop/ansibleScenarioConfigs/ansible/app1
         dest: /home/node/app1/
         remote_src: yes
       tags:
