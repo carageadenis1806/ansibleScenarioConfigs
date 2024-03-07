@@ -1,8 +1,7 @@
 ---
 - name: Deploy Node.js Apps
   hosts: host@192.168.255.128
-  become: yes
-  gather_facts: yes
+ 
 
   tasks:
     - name: Copy app1 Dockerfile and code
