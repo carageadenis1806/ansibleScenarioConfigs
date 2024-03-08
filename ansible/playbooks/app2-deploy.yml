@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Copy app2 Dockerfile
+      ansible.builtin.copy:
+        src: ../app2/Dockerfile
+        dest: /tmp/Dockerfile_app2
+
+    - name: Build and run app2 container
+      ansible.builtin.shell: |
+        docker build -t app2-image /tmp/Dockerfile_app2
+        docker run -d -p 8081:8081 --name app2-container app2-image

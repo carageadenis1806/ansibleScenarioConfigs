@@ -1,26 +1,12 @@
 ---
-- name: Deploy Nginx Load Balancer
-  hosts: host@192.168.255.128
-  become: yes
-  gather_facts: yes
-
+- hosts: all
+  become: true
   tasks:
-    - name: Copy Nginx Load Balancer Dockerfile and config
-      copy:
-        src: ../nginx-container/
-        dest: /home/nginx-container/
-      tags:
-        - copy
+    - name: Copy nginx.conf
+      ansible.builtin.copy:
+        src: ../nginx-container/nginx.conf
+        dest: /tmp/nginx.conf
 
-    - name: Deploy Nginx Load Balancer
-      include_role:
-        name: geerlingguy.docker
-      vars:
-        docker_image: nginx-lb-image
-        docker_state: started
-        docker_restart_policy: always
-        docker_ports:
-          - "8000:80"
-        docker_source_directory: /home/nginx-container
-      tags:
-        - nginx
+    - name: Build and run nginx container
+      ansible.builtin.shell: |
+        docker run -d -p 8000:80 --name nginx-container --network host -v /tmp/nginx.conf:/etc/nginx/nginx.conf nginx:latest
