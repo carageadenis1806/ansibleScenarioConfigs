@@ -1,0 +1,13 @@
+---
+- name: Run Docker Container on Host
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Run Docker container
+      docker_container:
+        name: app1  # Desired name for the Docker container
+        image: app1image   # The name of the Docker image you built
+        state: started            # Ensure the container is started
+        ports:
+          - "8080:8080"              # Example mapping of port 80 in the container to port 8080 on the host
