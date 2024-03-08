@@ -1,0 +1,10 @@
+---
+- name: Install and Configure NGINX
+  hosts: all
+  become: true
+
+  roles:
+    - name: community.general.nginx
+      vars:
+        nginx_listen_port: 9999  # Customize the listen port if needed
+        nginx_server_name: "your_server_name"  # Set your server name or IP address
