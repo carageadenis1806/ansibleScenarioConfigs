@@ -6,6 +6,7 @@
       ansible.builtin.copy:
         src: ../app1/Dockerfile
         dest: /tmp/Dockerfile_app1
+        remote_src: yes
 
     - name: Build and run app1 container
       ansible.builtin.shell: |
