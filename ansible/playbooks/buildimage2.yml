@@ -1,0 +1,10 @@
+---
+- name: Build Docker Container on Host
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Build Docker image
+      docker_image:
+        path: /home/host/Desktop/ANSIBLE/app2/
+        name: app2image

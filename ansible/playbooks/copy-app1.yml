@@ -6,5 +6,5 @@
   tasks:
     - name: Copy folder from controller to host
       copy:
-        src: /home/controller/Desktop/ansibleScenarioConfigs/app1
+        src: /home/controller/Desktop/ansibleScenarioConfigs/app2
         dest: /home/host/Desktop/ANSIBLE
