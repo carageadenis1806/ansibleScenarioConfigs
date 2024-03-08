@@ -1,0 +1,10 @@
+---
+- name: Copy Folder to Host
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Copy folder from controller to host
+      copy:
+        src: /home/controller/Desktop/ansibleScenarioConfigs/app2
+        dest: /home/host/Desktop/ANSIBLE
