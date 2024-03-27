@@ -1,0 +1,150 @@
+---
+# all the playbooks were merged into one
+
+
+- hosts: all
+  become: true
+  tasks:
+  
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install required packages for Docker
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install and Configure NGINX
+      hosts: all
+      become: true
+
+      roles:
+        - name: community.general.nginx
+          vars:
+            nginx_listen_port: 9999  # Customize the listen port if needed
+            nginx_server_name: "your_server_name"  # Set your server name or IP address
+    
+    - name: Copy App 1 Folder to Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Copy folder from controller to host
+          copy:
+            src: /home/controller/Desktop/ansibleScenarioConfigs/app1
+            dest: /home/host/Desktop/ANSIBLE
+
+    - name: Copy App 2 Folder to Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Copy folder from controller to host
+          copy:
+            src: /home/controller/Desktop/ansibleScenarioConfigs/app2
+            dest: /home/host/Desktop/ANSIBLE
+
+    - name: Build App 1 Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Build Docker image
+          docker_image:
+            path: /home/host/Desktop/ANSIBLE/app1/
+            name: app1image
+
+    - name: Build App 2 Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Build Docker image
+          docker_image:
+            path: /home/host/Desktop/ANSIBLE/app2/
+            name: app2image
+
+    - name: Run App 1 Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Run Docker container
+          docker_container:
+            name: app1  # Desired name for the Docker container
+            image: app1image   # The name of the Docker image you built
+            state: started            # Ensure the container is started
+            ports:
+              - "8080:8080"              # Example mapping of port 80 in the container to port 8080 on the host
+
+    - name: Run App 2 Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Run Docker container
+          docker_container:
+            name: app2  # Desired name for the Docker container
+            image: app2image   # The name of the Docker image you built
+            state: started            # Ensure the container is started
+            ports:
+              - "8081:8081"              # Example mapping of port 80 in the container to port 8080 on the host
+
+    - name: Copy Nginx Folder to Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Copy folder from controller to host
+          copy:
+            src: /home/controller/Desktop/ansibleScenarioConfigs/nginx-container
+            dest: /home/host/Desktop/ANSIBLE
+
+    - name: Build Ningx Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Build Docker image
+          docker_image:
+            path: /home/host/Desktop/ANSIBLE/nginx-container/
+            name: nginx-image
+
+    - name: Run Nginx Docker Container on Host
+      hosts: all
+      become: true
+
+      tasks:
+        - name: Run Docker container
+          docker_container:
+            name: nginx-lb  # Desired name for the Docker container
+            image: nginx-image   # The name of the Docker image you built
+            state: started            # Ensure the container is started
+            ports:
+              - "9999:9999"              # Example mapping of port 80 in the container to port 8080 on the host
+
