@@ -1,0 +1,7 @@
+- create the vm from the picture
+
+- write some Ansible playbooks to automate the NGINX Load Ballancer, NodeJs App (load balance method - Round Robin) and Squid configuration.
+
+- test the load balancer (to send you once to docker web 1, once to docker web 2)
+
+- test traffic through Squid - proxy the browser IP of your machine with Squid / TCP3128
